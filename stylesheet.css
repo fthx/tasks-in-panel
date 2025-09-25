@@ -1,0 +1,7 @@
+.task-button {
+  transition-duration: 150ms;
+}
+
+.task-demands-attention {
+  background-color: rgba(233, 84, 32, 1);
+}

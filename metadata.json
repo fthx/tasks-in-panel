@@ -1,0 +1,13 @@
+{
+  "description": "Lag-free minimalist taskbar that respects the GNOME Shell style.\n\n Very light and reliable extension.\n\n Windows icons on active workspace.\n Highlight window demanding attention.\n Scroll on panel to change active workspace.\n Hover task to raise its window.\n Right click to show app menu.\n Middle click to open new app window.\n Both dark and light styles.\n Display Chromium web apps real icons.\n\n No settings.",
+  "name": "Tasks in panel",
+  "shell-version": [
+    "46",
+    "47",
+    "48",
+    "49"
+  ],
+  "url": "https://github.com/fthx/tasks-in-panel",
+  "uuid": "tasks-in-panel@fthx",
+  "version": 999
+}
