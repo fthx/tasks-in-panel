@@ -34,18 +34,13 @@ const TaskButton = GObject.registerClass(
 
             this._id = 'task-button-' + this._window;
             if (!Main.panel.statusArea[this._id])
-                Main.panel.addToStatusArea(this._id, this, this._getIndex(), 'left');
+                Main.panel.addToStatusArea(this._id, this, 99, 'left');
 
             this._connectSignals();
         }
 
         _connectSignals() {
             global.workspace_manager.connectObject('active-workspace-changed', this._updateVisibility.bind(this), this);
-
-            Main.overview.connectObject(
-                'shown', this._updateVisibility.bind(this),
-                'hidden', this._updateVisibility.bind(this),
-                this);
 
             this._window?.connectObject(
                 'notify::appears-focused', this._updateFocus.bind(this),
@@ -55,7 +50,7 @@ const TaskButton = GObject.registerClass(
                 'notify::urgent', () => this._updateDemandsAttention(),
                 'notify::wm-class', this._updateApp.bind(this), GObject.ConnectFlags.AFTER,
                 'unmanaging', this.destroy.bind(this),
-                'workspace-changed', this._updatePosition.bind(this),
+                'workspace-changed', this._updateVisibility.bind(this), GObject.ConnectFlags.AFTER,
                 this);
 
             this.connectObject(
@@ -66,7 +61,6 @@ const TaskButton = GObject.registerClass(
 
         _disconnectSignals() {
             global.workspace_manager.disconnectObject(this);
-            Main.overview.disconnectObject(this);
             this._window?.disconnectObject(this);
         }
 
@@ -127,36 +121,12 @@ const TaskButton = GObject.registerClass(
                     .list_windows()
                     .filter(w => !w.minimized && w.get_monitor() == monitor_index);
                 let monitor_windows_sorted = global.display.sort_windows_by_stacking(monitor_windows);
-                this._windowOnTop = monitor_windows_sorted.at(-1);
+                this._windowOnTop = monitor_windows_sorted?.at(-1);
 
                 this._window?.raise();
             }
             else
                 this._windowOnTop?.raise();
-        }
-
-        _getIndex() {
-            let index = 0;
-
-            for (let bin of Main.panel._leftBox.get_children()) {
-                let button = bin.child;
-
-                if (button) {
-                    let thisButtonIsAfter = button._window?.get_workspace().index() <= this._window?.get_workspace().index();
-
-                    if (!(button instanceof TaskButton) || thisButtonIsAfter)
-                        index++;
-                }
-            }
-
-            return index;
-        }
-
-        _updatePosition() {
-            if (Main.panel._leftBox.get_children().includes(this.container))
-                Main.panel._leftBox.set_child_at_index(this.container, this._getIndex());
-
-            this._updateVisibility();
         }
 
         _updateWorkspace() {
@@ -186,7 +156,7 @@ const TaskButton = GObject.registerClass(
             if (this._window)
                 this._app = Shell.WindowTracker.get_default().get_window_app(this._window);
 
-            let wmClass = this._window.wm_class;
+            let wmClass = this._window?.wm_class;
             if (this._app) {
                 if (wmClass && this._app.get_name().includes("Chromium"))
                     this._icon.set_gicon(Gio.Icon.new_for_string(wmClass));
@@ -203,7 +173,7 @@ const TaskButton = GObject.registerClass(
             this._updateFocus();
             this._updateWorkspace();
 
-            this.visible = Main.overview.visible || (!this._window?.is_skip_taskbar() && this._windowIsOnActiveWorkspace);
+            this.visible = !this._window?.is_skip_taskbar() && this._windowIsOnActiveWorkspace;
         }
 
         destroy() {
@@ -219,6 +189,16 @@ const TaskBar = GObject.registerClass(
             super._init();
 
             this._makeTaskbar();
+        }
+
+        _connectSignals() {
+            global.display.connectObject('window-created', (display, window) => this._makeTaskButton(window), this);
+            Main.panel.connectObject('scroll-event', (actor, event) => Main.wm.handleWorkspaceScroll(event), this);
+        }
+
+        _disconnectSignals() {
+            global.display.disconnectObject(this);
+            Main.panel.disconnectObject(this);
         }
 
         _makeTaskButton(window) {
@@ -263,16 +243,6 @@ const TaskBar = GObject.registerClass(
             });
         }
 
-        _connectSignals() {
-            global.display.connectObject('window-created', (display, window) => this._makeTaskButton(window), this);
-            Main.panel.connectObject('scroll-event', (actor, event) => Main.wm.handleWorkspaceScroll(event), this);
-        }
-
-        _disconnectSignals() {
-            global.display.disconnectObject(this);
-            Main.panel.disconnectObject(this);
-        }
-
         destroy() {
             this._disconnectSignals();
             this._destroyTaskbar();
@@ -285,7 +255,7 @@ export default class TasksInPanelExtension {
     }
 
     disable() {
-        this._taskbar.destroy();
+        this._taskbar?.destroy();
         this._taskbar = null;
     }
 }
