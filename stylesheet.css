@@ -1,5 +1,12 @@
 .task-button {
+  margin: 0px;
+  border-radius: 6px;
+
   transition-duration: 150ms;
+}
+
+.task-button-focused {
+  background-color: st-transparentize(-st-accent-color, 60%);
 }
 
 .task-demands-attention {

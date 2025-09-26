@@ -17,7 +17,6 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
 
 const ICON_SIZE = 22; // px
-const UNFOCUSED_OPACITY = 128; // 0...255
 
 const TaskButton = GObject.registerClass(
     class TaskButton extends PanelMenu.Button {
@@ -142,10 +141,10 @@ const TaskButton = GObject.registerClass(
         }
 
         _updateFocus() {
-            if (Main.overview.visible || this._window?.appears_focused)
-                this.set_opacity(255);
+            if (this._window?.appears_focused)
+                this.add_style_class_name('task-button-focused');
             else
-                this.set_opacity(UNFOCUSED_OPACITY);
+                this.remove_style_class_name('task-button-focused');
         }
 
         _updateDemandsAttention() {
