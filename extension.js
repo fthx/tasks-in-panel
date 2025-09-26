@@ -16,7 +16,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
 
-const ICON_SIZE = 22; // px
+const ICON_SIZE = 20; // px
 
 const TaskButton = GObject.registerClass(
     class TaskButton extends PanelMenu.Button {
