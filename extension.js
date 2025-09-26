@@ -165,7 +165,7 @@ const TaskButton = GObject.registerClass(
 
             let wmClass = this._window?.wm_class;
             if (this._app) {
-                if (wmClass && this._app.get_name().includes("Chromium"))
+                if (wmClass && wmClass.startsWith('chrome'))
                     this._icon.set_gicon(Gio.Icon.new_for_string(wmClass));
                 else
                     this._icon.set_gicon(this._app.icon);
