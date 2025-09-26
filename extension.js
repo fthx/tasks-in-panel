@@ -60,7 +60,7 @@ const TaskButton = GObject.registerClass(
 
             this.connectObject(
                 'notify::hover', this._onHover.bind(this),
-                'button-press-event', (widget, event) => this._onClick(event),
+                'button-press-event', (actor, event) => this._onClick(event),
                 this);
         }
 
@@ -82,25 +82,30 @@ const TaskButton = GObject.registerClass(
             this.setMenu(new AppMenu(this));
         }
 
-        _onClick(event) {
-            if (event.get_button() == Clutter.BUTTON_PRIMARY) {
-                this.menu.close();
-                this._window_on_top = null;
+        _toggleWindow() {
+            this._windowOnTop = null;
 
-                if (this._window?.has_focus()) {
-                    if (this._window?.can_minimize() && !Main.overview.visible)
-                        this._window?.minimize();
-                } else {
-                    this._window?.activate(global.get_current_time());
-                    this._window?.focus(global.get_current_time());
-                }
-                Main.overview.hide();
+            if (this._window?.has_focus()) {
+                if (this._window?.can_minimize() && !Main.overview.visible)
+                    this._window?.minimize();
+            } else {
+                this._window?.activate(global.get_current_time());
+                this._window?.focus(global.get_current_time());
+            }
+            Main.overview.hide();
+        }
+
+        _onClick(event) {
+            if (event?.get_button() == Clutter.BUTTON_PRIMARY) {
+                this.menu?.close();
+
+                this._toggleWindow();
 
                 return Clutter.EVENT_STOP;
             }
 
-            if (event.get_button() == Clutter.BUTTON_MIDDLE) {
-                this.menu.close();
+            if (event?.get_button() == Clutter.BUTTON_MIDDLE) {
+                this.menu?.close();
 
                 if (this._app?.can_open_new_window())
                     this._app?.open_new_window(-1);
@@ -122,12 +127,12 @@ const TaskButton = GObject.registerClass(
                     .list_windows()
                     .filter(w => !w.minimized && w.get_monitor() == monitor_index);
                 let monitor_windows_sorted = global.display.sort_windows_by_stacking(monitor_windows);
-                this._window_on_top = monitor_windows_sorted.at(-1);
+                this._windowOnTop = monitor_windows_sorted.at(-1);
 
                 this._window?.raise();
             }
             else
-                this._window_on_top?.raise();
+                this._windowOnTop?.raise();
         }
 
         _getIndex() {
@@ -151,7 +156,7 @@ const TaskButton = GObject.registerClass(
             if (Main.panel._leftBox.get_children().includes(this.container))
                 Main.panel._leftBox.set_child_at_index(this.container, this._getIndex());
 
-            this._updateWorkspace();
+            this._updateVisibility();
         }
 
         _updateWorkspace() {
@@ -198,7 +203,7 @@ const TaskButton = GObject.registerClass(
             this._updateFocus();
             this._updateWorkspace();
 
-            this.visible = !this._window?.is_skip_taskbar() && this._windowIsOnActiveWorkspace;
+            this.visible = Main.overview.visible || (!this._window?.is_skip_taskbar() && this._windowIsOnActiveWorkspace);
         }
 
         destroy() {
