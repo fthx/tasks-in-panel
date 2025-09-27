@@ -42,11 +42,6 @@ const TaskButton = GObject.registerClass(
         _connectSignals() {
             global.workspace_manager.connectObject('active-workspace-changed', this._updateVisibility.bind(this), this);
 
-            Main.overview.connectObject(
-                'shown', this._updateVisibility.bind(this),
-                'hidden', this._updateVisibility.bind(this),
-                this);
-
             this._window?.connectObject(
                 'notify::appears-focused', this._updateFocus.bind(this), GObject.ConnectFlags.AFTER,
                 'notify::demands-attention', this._updateDemandsAttention.bind(this),
@@ -142,7 +137,7 @@ const TaskButton = GObject.registerClass(
         }
 
         _updateFocus() {
-            if (Main.overview.visible || this._window?.appears_focused)
+            if (this._window?.appears_focused)
                 this.opacity = 255;
             else
                 this.opacity = UNFOCUSED_OPACITY;
@@ -180,7 +175,7 @@ const TaskButton = GObject.registerClass(
             this._updateFocus();
             this._updateWorkspace();
 
-            this.visible = Main.overview.visible || (!this._window?.is_skip_taskbar() && this._windowIsOnActiveWorkspace);
+            this.visible = !this._window?.is_skip_taskbar() && this._windowIsOnActiveWorkspace;
         }
 
         destroy() {
