@@ -1,14 +1,7 @@
 .task-button {
-  margin: 3px;
-
-  border-radius: 6px;
-  border: 1px solid transparent;
+  margin: 0px;
 
   transition-duration: 150ms;
-}
-
-.task-button-focused {
-  border: 1px solid st-transparentize(-st-accent-color, 20%);
 }
 
 .task-demands-attention {
