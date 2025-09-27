@@ -61,7 +61,6 @@ const TaskButton = GObject.registerClass(
 
         _disconnectSignals() {
             global.workspace_manager.disconnectObject(this);
-            Main.overview.disconnectObject(this);
 
             this._window?.disconnectObject(this);
         }
