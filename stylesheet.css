@@ -1,9 +1,8 @@
 .task-button {
   margin: 0px;
-
   transition-duration: 150ms;
 }
 
-.task-demands-attention {
+.task-button.task-demands-attention {
   box-shadow: 0 0 0 st-transparentize(-st-accent-color, 50%);
 }
