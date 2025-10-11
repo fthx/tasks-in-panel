@@ -159,7 +159,7 @@ const TaskButton = GObject.registerClass(
 
             const wmClass = this._window?.wm_class;
             if (this._app) {
-                if (wmClass && wmClass.startsWith('chrome'))
+                if (wmClass?.startsWith('chrome'))
                     this._icon.set_gicon(Gio.Icon.new_for_string(wmClass));
                 else
                     this._icon.set_gicon(this._app.icon);
@@ -228,7 +228,8 @@ const TaskBar = GObject.registerClass(
                 const workspacesNumber = global.workspace_manager.n_workspaces;
 
                 for (let workspaceIndex = 0; workspaceIndex < workspacesNumber; workspaceIndex++) {
-                    const windowsList = global.workspace_manager.get_workspace_by_index(workspaceIndex)?.list_windows() || [];
+                    const workspace = global.workspace_manager.get_workspace_by_index(workspaceIndex);
+                    const windowsList = workspace?.list_windows() || [];
 
                     for (let window of windowsList)
                         this._makeTaskButton(window);
