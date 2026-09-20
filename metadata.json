@@ -2,7 +2,8 @@
   "description": "Lag-free taskbar that respects the GNOME Shell style.\n\n Light and reliable extension.\n\n Multi-monitor support.\n Hover task to raise its window.\n Right click to show app menu.\n Middle click to open new app window.\n Display Chromium web apps real icons.\n Optional window grouping by app.\n\n Light style.\n Workspaces bar.\n Recent and favorites apps.\n Power profile indicator (until GNOME 49).\n User id indicator.\n\n Settings UI to turn on/off these features and many more. Unused features are not initialized nor loaded.\n Select focused window only in prefs to look like the old app menu or Window Title is Back.\n\n You can toggle the overview in each monitor using Bottom Overview extension.",
   "name": "Tasks in panel",
   "shell-version": [
-    "50"
+    "50",
+    "51"
   ],
   "url": "https://github.com/fthx/tasks-in-panel",
   "uuid": "tasks-in-panel@fthx",
