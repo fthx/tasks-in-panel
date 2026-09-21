@@ -186,13 +186,6 @@ class ShowDesktopButton extends PanelMenu.Button {
                 window?.unminimize();
         }
     }
-
-    destroy() {
-        // avoid a Shexli error, but not needed
-        this._clickGesture.disconnectObject(this);
-
-        super.destroy();
-    }
 }
 
 class UserIdButton extends SystemIndicator {
@@ -530,9 +523,6 @@ class TaskButton extends PanelMenu.Button {
 
         this._window?.disconnectObject(this);
         this._app?.disconnectObject(this);
-
-        // avoid a Shexli error, but not needed
-        this._clickGesture.disconnectObject(this);
     }
 
     _insertButton() {
