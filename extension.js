@@ -155,7 +155,7 @@ class ShowDesktopButton extends PanelMenu.Button {
         if (this._clickGesture)
             this.remove_action(this._clickGesture);
         this._clickGesture = new Clutter.ClickGesture();
-        this._clickGesture.connect('recognize', () => this._toggleAllWindows());
+        this._clickGesture.connectObject('recognize', () => this._toggleAllWindows(), this);
         this.add_action(this._clickGesture);
 
         if (!Main.panel.statusArea['showDesktopButton'])
@@ -185,6 +185,13 @@ class ShowDesktopButton extends PanelMenu.Button {
             for (const window of allWindows)
                 window?.unminimize();
         }
+    }
+
+    destroy() {
+        // avoid a Shexli error, but not needed
+        this._clickGesture.disconnectObject(this);
+
+        super.destroy();
     }
 }
 
@@ -513,7 +520,7 @@ class TaskButton extends PanelMenu.Button {
         if (this._clickGesture)
             this.remove_action(this._clickGesture);
         this._clickGesture = new Clutter.ClickGesture();
-        this._clickGesture.connect('recognize', gesture => this._onClick(gesture));
+        this._clickGesture.connectObject('recognize', gesture => this._onClick(gesture), this);
         this.add_action(this._clickGesture);
     }
 
@@ -523,6 +530,9 @@ class TaskButton extends PanelMenu.Button {
 
         this._window?.disconnectObject(this);
         this._app?.disconnectObject(this);
+
+        // avoid a Shexli error, but not needed
+        this._clickGesture.disconnectObject(this);
     }
 
     _insertButton() {
