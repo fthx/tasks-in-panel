@@ -636,7 +636,8 @@ class TaskButton extends PanelMenu.Button {
         if (this.hover) {
             const monitorIndex = this._window?.get_monitor();
             const windows = this._window?.get_workspace()?.list_windows() ?? [];
-            const monitorWindows = windows.filter(w => w.get_monitor() === monitorIndex);
+            const monitorWindows = windows.filter(
+                w => w.get_monitor() === monitorIndex && w.showing_on_its_workspace());
             this._windowOnTop = global.display.sort_windows_by_stacking(monitorWindows)?.at(-1);
 
             this._hoverTimeout = GLib.timeout_add_once(GLib.PRIORITY_DEFAULT, this._taskSettings.hoverDelay, () => {
@@ -736,16 +737,23 @@ class TaskButton extends PanelMenu.Button {
     }
 
     _animatedDestroy() {
+        if (this._hoverTimeout)
+            GLib.source_remove(this._hoverTimeout);
+        this._hoverTimeout = null;
+
+        this.reactive = false;
+        this._disconnectSignals();
+
         if (this._taskSettings.animateOnClose) {
             this.opacity = 0;
             this._box.ease({
                 width: 0,
                 duration: 150,
                 mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                onStopped: () => this.destroy(),
+                onStopped: () => super.destroy(),
             });
         } else
-            this.destroy();
+            super.destroy();
     }
 
     destroy() {
