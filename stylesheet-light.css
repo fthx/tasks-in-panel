@@ -90,6 +90,15 @@
   box-shadow: inset 0 0 5px 0 rgba(255, 0, 0, 0.45);
 }
 
+:overview .task-box-demands-attention {
+  background-color: rgba(255, 0, 0, 0.45);
+  box-shadow: inset 0 0 5px 0 rgba(255, 0, 0, 0.45);
+}
+
+:overview .workspace-button-no-windows {
+  color: rgba(255, 255, 255, 0.3);
+}
+
 .task-label {
   margin-left: 6px;
   margin-right: 6px;
