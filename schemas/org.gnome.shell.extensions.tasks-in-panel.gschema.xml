@@ -11,7 +11,7 @@
 
         <key type="b" name="yaru-panel">
             <default>true</default>
-            <summary>Normal-weigthed fonts</summary>
+            <summary>Normal-weighted fonts</summary>
         </key>
 
         <key type="b" name="accent-panel">
