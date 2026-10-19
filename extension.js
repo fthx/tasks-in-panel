@@ -825,10 +825,8 @@ class TasksInPanel extends GObject.Object {
         if (this._settings?.get_boolean('show-user-id'))
             this._userIdButton = new UserIdButton();
 
-        if (this._settings?.get_boolean('move-date')) {
+        if (this._settings?.get_boolean('move-date'))
             this._moveDate(true);
-            Main.panel._updatePanel();
-        }
 
         if (!this._settings?.get_boolean('show-activities'))
             Main.panel.statusArea.activities?.hide();
@@ -936,7 +934,11 @@ class TasksInPanel extends GObject.Object {
     }
 
     _moveDate(active) {
-        const panel = Main.sessionMode.panel;
+        if (active)
+            this._sessionPanel = Main.sessionMode.panel;
+        const panel = this._sessionPanel;
+        if (!panel)
+            return;
 
         if (active) {
             panel.center = panel.center.filter(item => item !== 'dateMenu');
@@ -947,6 +949,10 @@ class TasksInPanel extends GObject.Object {
             if (!panel.center.includes('dateMenu'))
                 panel.center.unshift('dateMenu');
         }
+
+        if (!active)
+            this._sessionPanel = null;
+        Main.panel._updatePanel();
     }
 
     _destroyTaskbar() {
@@ -1009,7 +1015,6 @@ class TasksInPanel extends GObject.Object {
 
         Main.panel.statusArea.activities?.show();
         this._moveDate(false);
-        Main.panel._updatePanel();
 
         this._destroyItems();
 
