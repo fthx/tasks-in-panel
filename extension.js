@@ -506,7 +506,7 @@ class TaskButton extends PanelMenu.Button {
             'workspace-changed', () => this._updateVisibility(), GObject.ConnectFlags.AFTER,
             this);
 
-        if (!this._taskSettings.showFocusedWindow)
+        if (this._taskSettings.hoverRaiseWindow && !this._taskSettings.showFocusedWindow)
             this.connect('notify::hover', () => this._onHover());
 
         if (this._clickGesture)
