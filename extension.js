@@ -806,8 +806,7 @@ class TasksInPanel extends GObject.Object {
     }
 
     _initSettings() {
-        const mutterSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter' });
-        this._isDynamicWorkspaces = mutterSettings?.get_boolean('dynamic-workspaces');
+        this._isDynamicWorkspaces = Meta.prefs_get_dynamic_workspaces();
 
         if (this._settings?.get_boolean('multi-monitor'))
             this._monitorPanels = new MonitorPanels(this._settings);
