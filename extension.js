@@ -173,18 +173,12 @@ class ShowDesktopButton extends PanelMenu.Button {
 
     _toggleAllWindows() {
         const activeWorkspace = global.workspace_manager.get_active_workspace();
-        const allWindows = activeWorkspace?.list_windows() ?? [];
-        const notAllWindowsMinimized = allWindows.some(window => !window?.minimized);
+        const windows = (activeWorkspace?.list_windows() ?? []).filter(window => window.can_minimize());
 
-        if (notAllWindowsMinimized) {
-            for (const window of allWindows) {
-                if (!window?.minimized && window?.can_minimize())
-                    window?.minimize();
-            }
-        } else {
-            for (const window of allWindows)
-                window?.unminimize();
-        }
+        if (windows.some(window => !window.minimized))
+            windows.forEach(window => window.minimize());
+        else
+            windows.forEach(window => window.unminimize());
     }
 }
 
