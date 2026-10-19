@@ -635,7 +635,7 @@ class TaskButton extends PanelMenu.Button {
             this._hoverTimeout = null;
         }
 
-        if (!this._taskSettings.hoverRaiseWindow || Main.overview.visible || !Main.wm._canScroll)
+        if (Main.overview.visible || !Main.wm._canScroll)
             return;
 
         if (this.hover) {
