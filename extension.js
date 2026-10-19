@@ -104,6 +104,11 @@ class MonitorPanel extends Panel {
         // no duplicated system indicators
     }
 
+    _getDraggableWindowForPosition(_stageX) {
+        // upstream window drag only handles the primary monitor
+        return null;
+    }
+
     _reposition() {
         if (!this._monitor)
             return;
