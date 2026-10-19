@@ -21,7 +21,6 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import { SystemIndicator } from 'resource:///org/gnome/shell/ui/quickSettings.js';
 
-
 const ICON_SIZE = 18; // px
 const UNFOCUSED_TASK_BUTTON_OPACITY = 128; // 0...255
 const SHOW_DESKTOP_ICON_NAME = 'focus-windows-symbolic';
