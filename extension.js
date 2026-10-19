@@ -250,7 +250,6 @@ class FavoritesMenuButton extends PanelMenu.Button {
     }
 
     destroy() {
-        this.menu?.removeAll();
         AppFavorites.getAppFavorites()?.disconnectObject(this);
 
         super.destroy();
