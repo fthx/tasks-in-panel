@@ -298,12 +298,6 @@ class RecentAppsMenuButton extends PanelMenu.Button {
             });
         }
     }
-
-    destroy() {
-        this.menu?.removeAll();
-
-        super.destroy();
-    }
 }
 
 class WorkspacesBar extends PanelMenu.Button {
