@@ -902,18 +902,11 @@ class TasksInPanel extends GObject.Object {
     }
 
     _makeTaskbar() {
-        const workspacesNumber = global.workspace_manager.n_workspaces;
+        const windows = global.display.list_all_windows()
+            .sort((a, b) => a.get_stable_sequence() - b.get_stable_sequence());
 
-        for (let workspaceIndex = 0; workspaceIndex < workspacesNumber; workspaceIndex++) {
-            const workspace = global.workspace_manager.get_workspace_by_index(workspaceIndex);
-            const windowsList = workspace?.list_windows() ?? [];
-            const windowsListSorted = global.display.sort_windows_by_stacking(windowsList);
-
-            for (const window of windowsListSorted) {
-                if (!window.is_on_all_workspaces() || workspaceIndex === 0)
-                    this._makeTaskButton(window);
-            }
-        }
+        for (const window of windows)
+            this._makeTaskButton(window);
 
         this._connectSignals();
     }
