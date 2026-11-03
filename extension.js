@@ -601,6 +601,17 @@ class TaskButton extends PanelMenu.Button {
             Main.activateWindow(this._window);
     }
 
+    _closeWindow() {
+        if (this._window?.can_close())
+            this._window.delete(global.get_current_time());
+    }
+
+    _openNewWindow() {
+        if (this._app?.can_open_new_window())
+            this._app?.open_new_window(-1);
+        Main.overview.hide();
+    }
+
     _onClick(gesture) {
         const button = gesture?.get_button();
 
@@ -615,9 +626,10 @@ class TaskButton extends PanelMenu.Button {
                 this.menu?.toggle();
                 break;
             case Clutter.BUTTON_MIDDLE:
-                if (this._app?.can_open_new_window())
-                    this._app?.open_new_window(-1);
-                Main.overview.hide();
+                if (this._taskSettings.middleClickClose)
+                    this._closeWindow();
+                else
+                    this._openNewWindow();
                 break;
         }
     }
@@ -858,6 +870,7 @@ class TasksInPanel extends GObject.Object {
             forceBoldTasks: this._settings?.get_boolean('force-bold-tasks'),
             buttonWidth: this._settings?.get_int('button-width'),
             groupWindows: this._settings?.get_boolean('group-windows'),
+            middleClickClose: this._settings?.get_boolean('middle-click-close'),
             showRecentAppsMenu: this._settings?.get_boolean('show-recent-apps-menu'),
             recentAppsListLength: this._settings?.get_int('recent-apps-list-length'),
             animateOnClose: this._settings?.get_boolean('animate-on-close'),

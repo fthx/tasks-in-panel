@@ -114,6 +114,11 @@
             <summary>Group windows by app</summary>
         </key>
 
+        <key type="b" name="middle-click-close">
+            <default>false</default>
+            <summary>Close window on task middle-click</summary>
+        </key>
+
         <key type="b" name="hover-raise-window">
             <default>true</default>
             <summary>Raise window on task hover</summary>

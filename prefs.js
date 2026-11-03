@@ -124,6 +124,8 @@ export default class TasksInPanelPreferences extends ExtensionPreferences {
             'Left-click opens the app menu instead of toggling the window.');
         this._addSwitchRow(group, settings, 'group-windows', 'Group by app',
             'Only the topmost window of each app is shown.\nOther windows are available from the app menu.');
+        this._addSwitchRow(group, settings, 'middle-click-close', 'Close window on middle-click',
+            'Replaces opening a new application window.');
         this._addSwitchRow(group, settings, 'hover-raise-window', 'Raise window on hover');
 
         this._addSpinRow(group, settings, 'hover-delay',
