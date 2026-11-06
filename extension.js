@@ -836,9 +836,6 @@ class TasksInPanel extends GObject.Object {
         if (this._settings?.get_boolean('show-user-id'))
             this._userIdButton = new UserIdButton();
 
-        if (this._settings?.get_boolean('move-date'))
-            this._moveDate(true);
-
         if (!this._settings?.get_boolean('show-activities'))
             Main.panel.statusArea.activities?.hide();
 
@@ -879,6 +876,9 @@ class TasksInPanel extends GObject.Object {
 
     _initTaskBar() {
         this._initTaskBarTimeout = GLib.timeout_add_once(GLib.PRIORITY_DEFAULT, 500, () => {
+            if (this._settings?.get_boolean('move-date'))
+                this._moveDate(true);
+
             this._makeTaskbar();
 
             this._initTaskBarTimeout = null;
