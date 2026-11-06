@@ -957,7 +957,14 @@ class TasksInPanel extends GObject.Object {
 
         if (!active)
             this._sessionPanel = null;
-        Main.panel._updatePanel();
+
+        const dateMenu = Main.panel.statusArea.dateMenu.container;
+        dateMenu.get_parent()?.remove_child(dateMenu);
+        if (active)
+            Main.panel._rightBox.insert_child_at_index(dateMenu, 0);
+        else
+            Main.panel._centerBox.add_child(dateMenu);
+        Main.messageTray.bannerAlignment = active ? Clutter.ActorAlign.END : Clutter.ActorAlign.CENTER;
     }
 
     _destroyTaskbar() {
