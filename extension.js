@@ -608,7 +608,7 @@ class TaskButton extends PanelMenu.Button {
 
     _openNewWindow() {
         if (this._app?.can_open_new_window())
-            this._app?.open_new_window(-1);
+            this._app.open_new_window(-1);
         Main.overview.hide();
     }
 
