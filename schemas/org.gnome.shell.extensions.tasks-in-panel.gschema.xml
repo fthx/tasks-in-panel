@@ -75,6 +75,7 @@
         </key>
 
         <key type="i" name="recent-apps-list-length">
+            <range min="1" max="20"/>
             <default>8</default>
             <summary>Recent applications list maximum length</summary>
         </key>
@@ -125,6 +126,7 @@
         </key>
 
         <key type="i" name="hover-delay">
+            <range min="0" max="1000"/>
             <default>300</default>
             <summary>Raise window on hover delay</summary>
         </key>
@@ -145,6 +147,7 @@
         </key>
 
         <key type="i" name="button-width">
+            <range min="-1" max="999"/>
             <default>256</default>
             <summary>Task button natural width</summary>
         </key>

@@ -415,7 +415,9 @@ class WorkspaceButton extends St.Button {
     }
 
     _updateOpacity() {
-        if (this._workspace?.n_windows === 0 && !this._workspace?.active && !this._isDynamicWorkspaces)
+        const hasWindows = this._workspace.list_windows().some(w => !w.is_on_all_workspaces());
+
+        if (!hasWindows && !this._workspace.active && !this._isDynamicWorkspaces)
             this._workspaceIndex?.add_style_class_name('workspace-button-no-windows');
         else
             this._workspaceIndex?.remove_style_class_name('workspace-button-no-windows');
@@ -704,8 +706,8 @@ class TaskButton extends PanelMenu.Button {
 
     _updateFocus() {
         const focusWindow = global.display.focus_window;
-        this._windowHasFocus = this._window
-            && (this._window === focusWindow || this._window === focusWindow?.get_transient_for());
+        this._windowHasFocus = !!focusWindow
+            && (focusWindow === this._window || this._window.is_ancestor_of_transient(focusWindow));
 
         if (this._taskSettings.showFocusedWindow)
             return;
