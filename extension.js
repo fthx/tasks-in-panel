@@ -56,6 +56,9 @@ class MonitorPanels {
 
     destroy() {
         this._destroyPanels();
+
+        this._panels = null;
+        this._settings = null;
     }
 }
 
@@ -1034,8 +1037,12 @@ class TasksInPanel extends GObject.Object {
 
         this._monitorPanels?.destroy();
         this._monitorPanels = null;
+        this._panels = null;
 
         this._globalRecentApps = null;
+
+        this._taskSettings = null;
+        this._settings = null;
     }
 }
 
