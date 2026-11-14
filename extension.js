@@ -154,8 +154,7 @@ class ShowDesktopButton extends PanelMenu.Button {
 
         this._makeButtonBox();
 
-        if (this._clickGesture)
-            this.remove_action(this._clickGesture);
+        this.remove_action(this._clickGesture);
         this._clickGesture = new Clutter.ClickGesture();
         this._clickGesture.connectObject('recognize', () => this._toggleAllWindows(), this);
         this.add_action(this._clickGesture);
@@ -501,8 +500,7 @@ class TaskButton extends PanelMenu.Button {
         if (this._taskSettings.hoverRaiseWindow && !this._taskSettings.showFocusedWindow)
             this.connect('notify::hover', () => this._onHover());
 
-        if (this._clickGesture)
-            this.remove_action(this._clickGesture);
+        this.remove_action(this._clickGesture);
         this._clickGesture = new Clutter.ClickGesture();
         this._clickGesture.connectObject('recognize', gesture => this._onClick(gesture), this);
         this.add_action(this._clickGesture);
