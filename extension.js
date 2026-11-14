@@ -128,14 +128,8 @@ class MonitorPanel extends Panel {
 }
 
 
-class LightStyleMode extends GObject.Object {
-    static {
-        GObject.registerClass(this);
-    }
-
+class LightStyleMode {
     constructor() {
-        super();
-
         this._savedColorScheme = Main.sessionMode.colorScheme;
         this._updateColorScheme('prefer-light');
     }
@@ -782,14 +776,8 @@ class TaskButton extends PanelMenu.Button {
     }
 }
 
-class TasksInPanel extends GObject.Object {
-    static {
-        GObject.registerClass(this);
-    }
-
+class TasksInPanel {
     constructor(settings) {
-        super();
-
         this._settings = settings;
 
         this._initSettings();
